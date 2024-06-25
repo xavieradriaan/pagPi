@@ -63,32 +63,35 @@
 </div>
 
 <script>
-let mensajeActual = 1;
-
-function mostrarInvitacion() {
-    if (mensajeActual <= 5) {
-        let mensaje = document.getElementById(`mensaje${mensajeActual}`);
-        mensaje.style.display = 'block';
-        setTimeout(() => mensaje.style.opacity = 1, 10);
-        
-        if (mensajeActual === 5) {
-            // Mostrar botones solo después del último mensaje
-            let botones = document.getElementById('botones');
-            botones.style.display = 'flex';
-            setTimeout(() => botones.style.opacity = 1, 10);
+    let mensajeActual = 1;
+    
+    function mostrarInvitacion() {
+        if (mensajeActual <= 5) {
+            let mensaje = document.getElementById(`mensaje${mensajeActual}`);
+            mensaje.style.display = 'block';
+            setTimeout(() => mensaje.style.opacity = 1, 10);
+            
+            if (mensajeActual === 5) {
+                // Mostrar botones solo después del último mensaje
+                let botones = document.getElementById('botones');
+                botones.style.display = 'flex';
+                setTimeout(() => botones.style.opacity = 1, 10);
+            }
+            
+            mensajeActual++;
+        } else {
+            // Desactivar el evento de clic en la carta después de mostrar todos los mensajes
+            document.querySelector('.carta').onclick = null;
         }
-        
-        mensajeActual++;
-    } else {
-        // Desactivar el evento de clic en la carta después de mostrar todos los mensajes
-        document.querySelector('.carta').onclick = null;
     }
-}
-
-function confirmar() {
-    alert('Gracias, tenemos una cita este sábado.');
-}
-</script>
+    
+    function confirmar() {
+        alert('Gracias, tenemos una cita este sábado.');
+    }
+    
+    // Asegura que mostrarInvitacion se llame cuando el contenido de la página esté completamente cargado
+    document.addEventListener('DOMContentLoaded', mostrarInvitacion);
+    </script>
 
 </body>
 </html>
