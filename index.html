@@ -14,6 +14,7 @@
         margin: 0;
         font-family: 'Itim', cursive;
         background: linear-gradient(135deg, #0077B6 0%, #48CAE4 25%, #90E0EF 50%, #FFAD3D 75%, #FF6D00 85%, #FF0000 100%);
+        overflow: hidden; /* Asegura que los corazones no desborden el cuerpo */
     }
     .carta {
         background-color: #ffffff;
@@ -26,6 +27,17 @@
         cursor: pointer;
         border-radius: 10px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        animation: despliegue 1s ease forwards;
+    }
+    @keyframes despliegue {
+        from {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
     }
     .mensaje, .botones {
         opacity: 0;
@@ -46,6 +58,23 @@
         background-color: #48CAE4;
         color: white;
     }
+    /* Estilos para los corazones flotantes */
+    .corazon {
+        position: absolute;
+        bottom: 20px;
+        animation: flotar 5s ease-in-out infinite;
+        will-change: transform;
+    }
+    @keyframes flotar {
+        0% {
+            transform: translateY(0) scale(0.5);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-1000px) scale(1.5);
+            opacity: 0;
+        }
+    }
 </style>
 </head>
 <body>
@@ -61,15 +90,19 @@
     <button onclick="event.stopPropagation(); confirmar()">Sí</button>
   </div>
 </div>
-
 <script>
     let mensajeActual = 1;
+    const coloresDeFondo = ['#0077B6', '#FFAD3D', '#90EE90', '#FF6347']; // Azul, Naranja, Verde, Rojo
     
     function mostrarInvitacion() {
         if (mensajeActual <= 5) {
             let mensaje = document.getElementById(`mensaje${mensajeActual}`);
             mensaje.style.display = 'block';
             setTimeout(() => mensaje.style.opacity = 1, 10);
+            
+            // Cambiar el color de fondo dinámicamente
+            document.body.style.transition = 'background-color 1s ease';
+            document.body.style.backgroundColor = coloresDeFondo[(mensajeActual - 1) % coloresDeFondo.length];
             
             if (mensajeActual === 5) {
                 // Mostrar botones solo después del último mensaje
@@ -87,11 +120,36 @@
     
     function confirmar() {
         alert('Gracias, tenemos una cita este sábado.');
+        lanzarCorazones();
     }
+    
+    // Añadir efecto de animación al tocar la carta
+    document.querySelector('.carta').addEventListener('click', () => {
+        document.querySelector('.carta').style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            document.querySelector('.carta').style.transform = 'scale(1)';
+        }, 200);
+    });
     
     // Asegura que mostrarInvitacion se llame cuando el contenido de la página esté completamente cargado
     document.addEventListener('DOMContentLoaded', mostrarInvitacion);
-    </script>
+    
+    // Función para lanzar corazones flotantes
+    function lanzarCorazones() {
+        for (let i = 0; i < 20; i++) {
+            let corazon = document.createElement('div');
+            corazon.innerHTML = '❤️';
+            corazon.style.fontSize = Math.random() * 20 + 10 + 'px';
+            corazon.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            corazon.style.left = Math.random() * 100 + 'vw';
+            corazon.classList.add('corazon');
+            document.body.appendChild(corazon);
+            setTimeout(() => {
+                corazon.remove();
+            }, 5000);
+        }
+    }
+</script>
 
 </body>
 </html>
