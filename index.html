@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitación al cine</title>
+<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: 'Itim', cursive;
+        background: linear-gradient(135deg, #0077B6 0%, #48CAE4 25%, #90E0EF 50%, #FFAD3D 75%, #FF6D00 85%, #FF0000 100%);
+    }
+    .carta {
+        background-color: #ffffff;
+        border: 2px solid #FFAD3D;
+        padding: 20px;
+        text-align: center;
+        max-width: 300px;
+        overflow: hidden;
+        transition: transform 0.5s ease;
+        cursor: pointer;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    .mensaje, .botones {
+        opacity: 0;
+        transition: opacity 2s ease;
+        display: none;
+    }
+    .botones {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #48CAE4;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<div class="carta" onclick="mostrarInvitacion()">
+  <div id="mensaje1" class="mensaje">Hola amor mío, hoy tengo una pequeña sorpresa para ti.</div>
+  <div id="mensaje2" class="mensaje">Primero quiero decirte que te amo y que no voy a dejar que los detalles y las cosas bonitas se apaguen.</div>
+  <div id="mensaje3" class="mensaje">Es por eso que hoy...</div>
+  <div id="mensaje4" class="mensaje">Quiero hacerte una invitación...</div>
+  <div id="mensaje5" class="mensaje">¿Quisieras el fin de semana conmigo a ver Intensamente 2?</div>
+  <div id="botones" class="botones">
+    <button onclick="event.stopPropagation(); confirmar()">Sí</button>
+    <button onclick="event.stopPropagation(); confirmar()">Sí</button>
+  </div>
+</div>
+
+<script>
+let mensajeActual = 1;
+
+function mostrarInvitacion() {
+    if (mensajeActual <= 5) {
+        let mensaje = document.getElementById(`mensaje${mensajeActual}`);
+        mensaje.style.display = 'block';
+        setTimeout(() => mensaje.style.opacity = 1, 10);
+        
+        if (mensajeActual === 5) {
+            // Mostrar botones solo después del último mensaje
+            let botones = document.getElementById('botones');
+            botones.style.display = 'flex';
+            setTimeout(() => botones.style.opacity = 1, 10);
+        }
+        
+        mensajeActual++;
+    } else {
+        // Desactivar el evento de clic en la carta después de mostrar todos los mensajes
+        document.querySelector('.carta').onclick = null;
+    }
+}
+
+function confirmar() {
+    alert('Gracias, tenemos una cita este sábado.');
+}
+</script>
+
+</body>
+</html>
